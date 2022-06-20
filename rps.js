@@ -1,3 +1,15 @@
+let playerScore = 0;
+let computerScore = 0;
+const rockButton = document.querySelector('.rock');
+const paperButton = document.querySelector('.paper');
+const scissorsButton = document.querySelector('.scissors');
+const outcomeDiv = document.querySelector('.outcome');
+const container = document.querySelector('.containter');
+const playerScoreSpan = document.querySelector('.player-score')
+const computerScoreSpan = document.querySelector('.computer-score')
+
+
+
 function computerPlay(){
     const options = ["Scissors", "Paper", "Rock"];
     const random = Math.floor(Math.random()*options.length);
@@ -5,74 +17,93 @@ function computerPlay(){
 
 }
 
-function userInput(){
-    let userChoice = prompt("Choose: Rock, Paper, or Scissors");
-    let slice = userChoice.slice(1);
-    userChoice = userChoice.charAt(0).toUpperCase() + slice.toLowerCase();
-
-    return userChoice;
+const playRound = (playerSelection, computerSelection) => {
+    console.log(playerSelection, computerSelection)
+    if (computerSelection===playerSelection){
+        const p = document.createElement('p');
+        p.textContent = `You tied! You both picked ${playerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Rock" && playerSelection==="Paper"){
+        playerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You won! ${playerSelection} beats ${computerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Rock" && playerSelection==="Scissors"){
+        computerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You lost! ${computerSelection} beats ${playerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Scissors" && playerSelection==="Rock"){
+        playerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You won! ${playerSelection} beats ${computerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Scissors" && playerSelection==="Paper"){
+        computerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You lost! ${computerSelection} beats ${playerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Paper" && playerSelection==="Scissors"){
+        playerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You won! ${playerSelection} beats ${computerSelection}`
+        outcomeDiv.appendChild(p)
+    }
+    else if (computerSelection==="Paper" && playerSelection==="Rock"){
+        computerScore++;
+        const p = document.createElement('p');
+        p.textContent = `You lost! ${computerSelection} beats ${playerSelection}`
+        outcomeDiv.appendChild(p)
+    }
 }
 
-function playRound(userSelection = userInput(), computerSelection=computerPlay()){
-    // const computerSelection = computerPlay();
-    // const userSelection = userInput();
-    let userWin = ["User Wins", computerSelection, userSelection];
-    let computerWin = ["Computer Wins", computerSelection, userSelection];
-
-    if (computerSelection===userSelection){
-        let value = ["tie", computerSelection, userSelection]
-        return (value);
+const tally = (playerScore, computerScore) => {
+    console.log(playerScore, computerScore)
+    if (playerScore === 5){
+        const p = document.createElement('p')
+        p.classList.add('player-won')
+        p.textContent = `You won, your score is ${playerScore}, computer score is ${computerScore}`
+        outcomeDiv.appendChild(p)
+    } 
+    else if (computerScore ===5){
+        const p = document.createElement('p')
+        p.classList.add('computer-won')
+        p.textContent = `You lost, your score is ${playerScore}, computer score is ${computerScore}`
+        outcomeDiv.appendChild(p)
     }
-    else if (computerSelection==="Rock" && userSelection==="Paper"){
-        return (userWin);
-    }
-    else if (computerSelection==="Rock" && userSelection==="Scissors"){
-        return computerWin;
-    }
-    else if (computerSelection==="Scissors" && userSelection==="Rock"){
-        return (userWin);
-    }
-    else if (computerSelection==="Scissors" && userSelection==="Paper"){
-        return computerWin;
-    }
-    else if (computerSelection==="Paper" && userSelection==="Scissors"){
-        return (userWin);
-    }
-    else if (computerSelection==="Paper" && userSelection==="Rock"){
-        return computerWin;
-    }
-
-    else {
-        return "Enter a valid option. Refersh the page and star again"
-    }
-
-
-}
-
-// console.log(playRound());
-
-function game(){
-    let userScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i<=3; i++){
-        let newGame = playRound();
-        if (newGame[0]==="User Wins"){
-            userScore+=1;
-            console.log(newGame)
-        }
-        else if (newGame[0]==="Computer Wins"){
-            computerScore+=1;
-            console.log(newGame);
-        }
-        else{
-            i--;
-            console.log(newGame);
-        }
-
-    }
-    let value = [userScore, computerScore];
-    return value;
 
 }
 
-console.log(game())
+const updateScores = (playerScore, computerScore) => {
+    playerScoreSpan.innerText = `${playerScore}`
+    computerScoreSpan.innerText = `${computerScore}`
+}
+
+rockButton.addEventListener('click',() => {
+    const computerSelection = computerPlay();
+    const playerSelection = 'Rock';
+    playRound(playerSelection, computerSelection);
+    tally(playerScore, computerScore)
+    updateScores(playerScore, computerScore)
+
+
+})
+paperButton.addEventListener('click', () => {
+    const computerSelection = computerPlay();
+    const playerSelection = 'Paper';
+    playRound(playerSelection, computerSelection);
+    tally(playerScore, computerScore)
+
+})
+scissorsButton.addEventListener('click', () => {
+    const computerSelection = computerPlay();
+    const playerSelection = 'Scissors';
+    playRound(playerSelection, computerSelection);
+    tally(playerScore, computerScore)
+
+})
