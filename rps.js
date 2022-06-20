@@ -98,6 +98,7 @@ paperButton.addEventListener('click', () => {
     const playerSelection = 'Paper';
     playRound(playerSelection, computerSelection);
     tally(playerScore, computerScore)
+    updateScores(playerScore, computerScore)
 
 })
 scissorsButton.addEventListener('click', () => {
@@ -105,5 +106,6 @@ scissorsButton.addEventListener('click', () => {
     const playerSelection = 'Scissors';
     playRound(playerSelection, computerSelection);
     tally(playerScore, computerScore)
+    updateScores(playerScore, computerScore)
 
 })
